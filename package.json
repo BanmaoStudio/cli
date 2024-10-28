@@ -6,6 +6,10 @@
   "bin": {
     "init": "index.js"
   },
+  "publishConfig": {
+    "access": "public",
+    "registry": "https://registry.npmjs.org/"
+  },
   "scripts": {
     "dev": "unbuild --stub",
     "build": "unbuild",
