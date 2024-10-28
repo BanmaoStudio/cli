@@ -1,0 +1,32 @@
+@import "./transition.css";
+@import "./reset.css";
+@import "./scrollbar.css";
+@import "nprogress/nprogress.css";
+
+html,
+body,
+#app {
+  height: 100%;
+}
+
+html.dark body {
+  background-color: rgb(16, 16, 20);
+}
+
+@font-face {
+  font-family: NoxZiTi;
+  src: url("@/assets/fonts/ZiTiQuanXinYiGuanHeiTi3.0-2.ttf");
+}
+
+.n-input .n-input__input-el:-webkit-autofill,
+textarea:-webkit-autofill,
+select:-webkit-autofill {
+  -webkit-text-fill-color: var(--n-text-color) !important;
+  -webkit-box-shadow: 0 0 0px 1000px transparent inset !important;
+  background-color: transparent !important;
+  background-image: none;
+  transition: background-color 50000s ease-in-out 0s;
+  caret-color: var(--n-caret-color) !important;
+  border: 0;
+  border-radius: 0;
+}

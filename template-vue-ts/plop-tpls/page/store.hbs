@@ -1,0 +1,101 @@
+import { defineStore } from 'pinia';
+import { ref } from 'vue';
+import { exportTableDataList, getTableDataList{{#if isEdit}}, saveFormData{{/if}}{{#if isDelete}}, deleteRowData{{/if}} } from './service';
+import type { {{ properCase name }}FilterProps, {{ properCase name }}Record{{#if isEdit}}, {{properCase name}}FormModel{{/if}} } from './types';
+
+export const use{{properCase name}}Store = defineStore('{{ dashCase name }}-store', () => {
+    const dataSource = ref<{{ properCase name }}Record[]>()
+    const pagination = ref({
+        page: 1,
+        pageSize: 10,
+        total: 0
+    })
+
+    /**
+     * 获取列表数据
+     */
+    async function getDataList(data: {{ properCase name }}FilterProps) {
+        try {
+            const result = await getTableDataList(data);
+            if (result) {
+                const { list, current, ...other} = result;
+
+                dataSource.value = list;
+                pagination.value = {
+                    page: current,
+                    ...other
+                }
+            }
+
+            return result;
+        } catch (error) {
+            throw new Error('Invalid: ' + error);
+        }
+    }
+
+    {{#if isExportFile}}
+    /**
+     * 导出Excel
+     */
+    async function getExcelData(data: Omit<{{ properCase name }}FilterProps, 'pageSize' | 'current'>) {
+        try {
+            const result = await exportTableDataList(data);
+            return result;
+        } catch(error) {
+            throw new Error('Invalid: ' + error);
+        }
+    }
+    {{/if}}
+
+    {{#if isEdit}}
+    /**
+     * 保存数据
+     */
+    async function saveTableData(data: {{ properCase name }}FormModel) {
+        try {
+            const result = await saveFormData(data)
+            if (result) {
+                window.$message?.success('保存成功！')
+            } else {
+                window.$message?.success('保存失败，请重试！')
+            }
+        } catch(error) {
+            throw new Error('Invalid: ' + error);
+        }
+    }
+    {{/if}}
+
+    {{#if isDelete}}
+    /**
+     * 删除单项数据
+     */
+    async function deleteData(id: number | null) {
+        try {
+            const result = await deleteRowData(id);
+            if (result) {
+                window.$message?.success('删除成功!')
+            } else {
+                window.$message?.error('删除失败！')
+            }
+        } catch (error) {
+
+        }
+    }
+    {{/if}}
+
+    return {
+        dataSource,
+        pagination,
+        getDataList,
+        {{#if isExportFile}}
+        getExcelData,
+        {{/if}}
+        {{#if isEdit}}
+        saveTableData,
+        {{/if}}
+        {{#if isDelete}}
+        deleteData,
+        {{/if}}
+    }
+})
+

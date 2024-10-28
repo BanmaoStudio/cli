@@ -1,0 +1,308 @@
+<template>
+  <n-card bordered class="shadow-sm">
+    <SearchPanel @search="handleSearch" @reset="handleReset">
+      <n-form
+        label-placement="left"
+        label-width="auto"
+        inline
+        size="small"
+        :show-feedback="false"
+      >
+          <n-form-item-gi label="数据名称">
+            <n-input v-model:value="searchParams.area_code" />
+          </n-form-item-gi>
+      </n-form>
+    </SearchPanel>
+  </n-card>
+  <!-- 数据表格 -->
+  <n-card class="mt-12px shadow-sm" :title="pageTitle">
+    <div class="flex-y-center justify-between pb-16px">
+      <n-space>
+        {{#if isAddend}}
+        <AddButton @click="handleAddTable" />
+        {{/if}}
+        {{#if isExportFile}}
+        <n-button size="small" type="primary" secondary @click="handleExcelData">
+          <template #icon>
+            <icon-ph-export />
+          </template>
+          导出Excel
+        </n-button>
+        {{/if}}
+        {{#if isSelection}}
+        <n-button v-show="checkedCollapsed" size="small" type="error" secondary>
+          <template #icon>
+            <icon-ant-design-delete-outlined />
+          </template>
+          删除
+        </n-button>
+        {{/if}}
+      </n-space>
+      <n-space>
+        <n-button size="small" secondary @click="() => loadData(1)">
+          <icon-mdi-refresh class="mr-4px text-16px" :class="{ 'animate-spin': loading }" />
+          刷新表格
+        </n-button>
+        <column-setting v-model:columns="columns" secondary />
+      </n-space>
+    </div>
+    <n-data-table
+      remote
+      :columns="columns"
+      :data="dataSource"
+      :loading="loading"
+      :pagination="pagination"
+      :row-key="rowKey"
+      {{#if isSelection}}
+      @update:checked-row-keys="handleCheck"
+      {{/if}}
+      @update:page="handlePageChange"
+      @update:page-size="handlePageSizeChange"
+      :bordered="false"
+      :max-height="506"
+    />
+  </n-card>
+  {{#if isModal}}
+  <table-action-modal v-model:visible="visible" :type="modalType" :edit-data="editData" />
+  {{/if}}
+</template>
+
+<script setup lang="tsx">
+import { ref, computed, {{#if isSelection}}watch,{{/if}} Ref } from 'vue'
+import { DataTableColumns, {{#if isSelection}}DataTableRowKey{{/if}} } from 'naive-ui'
+import { useCommonStore } from '../../../src/store'
+import { use{{properCase name}}Store } from './store'
+import { usePageTitle, useList, {{#if isModal}}useBoolean{{/if}} } from '../../../src/hooks'
+import type { {{properCase name}}Record, {{properCase name}}FilterProps } from './types'
+{{#if isModal}}
+import TableActionModal from './components/TableActionModal.vue'
+import type { ModalType } from './components/TableActionModal.vue'
+{{/if}}
+
+defineOptions({ name: "{{ properCase name }}Page" })
+
+type RowData = {{ properCase name }}Record
+
+/** 消息提示方法调用 */
+const { pageTitle } = usePageTitle()
+
+const rowKey = (row: RowData) => row.id
+
+/** 数据查询操作 */
+type SearchParams = Omit<{{properCase name}}FilterProps, 'current' | 'pageSize'>
+
+const store = use{{properCase name}}Store()
+const commonStore = useCommonStore()
+
+const gasStationList = computed(() => {
+  return commonStore.gasStationList
+})
+
+const initialSearchParams = () => {
+  return {
+    // TODO search params initial
+    area_code: '',
+    station_id: null
+  }
+}
+
+const searchParams = ref<SearchParams>(initialSearchParams())
+
+/** 获取列表数据 */
+const {
+  dataSource,
+  loading,
+  pagination,
+  handleExcelData,
+  handlePageChange,
+  handlePageSizeChange,
+  loadData
+} = useList<any>(
+  store.getDataList,
+  {
+    filterOption: searchParams,
+    {{#if isExportFile}}
+    exportRequestFn: store.getExcelData
+    {{/if}}
+  }
+)
+
+const columns= ref<DataTableColumns<RowData>>([
+  {{#if isSelection}}
+  { type: 'selection' },
+  {{/if}}
+  {{#unless isSelection}}
+  {
+    title: '#',
+    key: 'index',
+    width: 64,
+    align: 'center',
+    render: (_row, index) => index + 1
+  },
+  {{/unless}}
+  {
+    title: '加油站名称',
+    key: 'name'
+  },
+  {
+    title: 'Row Name',
+    key: 'name',
+    defaultSortOrder: 'ascend',
+    sorter: 'default'
+  },
+  {
+    title: '加油站编号',
+    key: 'station_sn',
+    render(row: RowData) {
+      return <clipboard-text text={row.station_sn} />
+    }
+  },
+  {
+    title: '状态',
+    key: 'state',
+    render(row: RowData) {
+      return (
+        <n-tag type={ row.state === 1 ? 'info' : 'warning' } size="small">
+          { row.state === 1 ? '开启' : '关闭' }
+        </n-tag>
+      )
+    }
+  },
+  {
+    title: '时间',
+    key: 'time'
+  },
+  {{#if isActions}}
+  { title: '操作', key: 'actions', minWidth: 100, align: 'center', render (row: RowData) {
+    return (
+      <n-space>
+        {{#if isEdit}}
+        <n-tooltip>
+          \{\{
+            trigger: () => (
+              <n-button size="small" type="info" quaternary onClick={
+                () => handleModify(row)
+              }>
+                <icon-ant-design-edit-outlined class="text-18px" />
+              </n-button>
+            )
+          \}\}
+        </n-tooltip>
+        {{/if}}
+        {{#if isDelete}}
+        <n-popconfirm
+          negative-text="取消"
+          positive-text="确认"
+          onPositiveClick={() => handleDelete(row.id)}
+        >
+          \{\{
+            default: () => '确认删除',
+            trigger: () => (
+              <n-tooltip>
+                \{\{
+                  default: () => '删除',
+                  trigger: () => (
+                    <n-button size="small" type="error" quaternary>
+                      <icon-ant-design-delete-outlined class="text-18px" />
+                    </n-button>
+                  )
+                \}\}
+              </n-tooltip>
+            )
+          \}\}
+        </n-popconfirm>
+        {{/if}}
+      </n-space>
+    )
+  }}
+  {{/if}}
+]) as Ref<DataTableColumns<RowData>>
+
+// 数据查询操作
+const handleSearch = () => {
+  loadData(1)
+}
+
+const handleReset = () => {
+  setTimeout(() => {
+    searchParams.value = initialSearchParams()
+  }, 50)
+}
+
+{{#if isSelection}}
+/** 多选操作 */
+const checkedRowKeysRef = ref<DataTableRowKey[]>([])
+const checkedCollapsed = ref(false)
+
+const handleCheck = (rowKeys: DataTableRowKey[]) => {
+  checkedRowKeysRef.value = rowKeys
+}
+
+/** 显示批量删除 */
+watch(
+  checkedRowKeysRef,
+  (v) => {
+    if(v.length > 0) {
+      checkedCollapsed.value = true
+    } else {
+      checkedCollapsed.value = false
+    }
+  }
+)
+{{/if}}
+
+{{#if isModal}}
+const { bool: visible, setTrue: openModal } = useBoolean();
+
+const modalType = ref<ModalType>('add')
+
+function setModalType(type: ModalType) {
+  modalType.value = type
+}
+
+const editData = ref<RowData | null>(null)
+
+function setEditData(data: RowData | null) {
+  editData.value = data;
+}
+{{/if}}
+
+{{#if isAddend}}
+/** 添加操作 */
+const handleAddTable = () => {
+  openModal(); // 打开 Modal
+  setModalType('add')
+}
+{{/if}}
+
+{{#if isEdit}}
+/** 修改操作 */
+const handleModify = (row: RowData) => {
+  {{#if isModal}}
+  setEditData(row)
+
+  setModalType('edit')
+  openModal();
+  {{/if}}
+}
+
+{{/if}}
+{{#if isDelete}}
+/** 删除操作 */
+const message = useMessage()
+const handleDelete = (rowId: number | null) => {
+  if (rowId) throw new Error('The parameter "rowId" should be number type');
+  message.info(`success Delete row ID: ${rowId}`)
+}
+{{/if}}
+
+/**
+ * 初始化数据
+ */
+function init() {
+  if (gasStationList.value.length <= 0) {
+    commonStore.getFuelStationList();
+  }
+}
+init();
+</script>

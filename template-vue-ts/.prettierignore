@@ -1,0 +1,22 @@
+# Ignore artifacts
+build
+coverage
+dist
+.vscode
+.git
+.DS_Store
+
+# Ignore node_modules
+node_modules
+
+# Ignore files
+tsconfig.json
+tsconfig.node.json
+package.json
+yarn.lock
+pnpm-lock.yaml
+*.html
+
+plop-tpls
+
+types/components.d.ts

@@ -1,0 +1,22 @@
+export interface {{properCase name}}FilterProps extends PaginationRequestProps {
+    /** 区域编码 */
+    area_code?: string;
+    /** 加油站ID */
+    station_id?: number | null;
+    /** TODO 1. expand to fields */
+}
+
+export interface {{properCase name}}Record {
+    /** 序号/数据ID */
+    id: number;
+    /** 加油站名称 */
+    station_name: string;
+    /** 加油站编号 */
+    station_sn: string;
+    /** 状态 */
+    state: number | null;
+}
+
+{{#if isAddend}}
+export type {{properCase name}}FormModel = Omit<{{properCase name}}Record, 'id'>
+{{/if}}

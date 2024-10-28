@@ -1,0 +1,37 @@
+{
+  "name": "@banmao/cli",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "bin": {
+    "init": "index.js"
+  },
+  "scripts": {
+    "dev": "unbuild --stub",
+    "build": "unbuild",
+    "typecheck": "tsc --noEmit",
+    "prepublishOnly": "npm run build",
+    "preinstall": "npx only-allow pnpm"
+  },
+  "engines": {
+    "node": "^18.0.0 || >= 20.0.0"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "minimist": "^1.2.8",
+    "plop": "^4.0.1",
+    "prompts": "^2.4.2",
+    "yargs": "^17.7.2"
+  },
+  "devDependencies": {
+    "@types/cross-spawn": "^6.0.6",
+    "@types/minimist": "^1.2.5",
+    "@types/node": "^22.8.1",
+    "@types/prompts": "^2.4.9",
+    "cross-spawn": "^7.0.3",
+    "picocolors": "^1.1.1",
+    "unbuild": "^2.0.0"
+  }
+}

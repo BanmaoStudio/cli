@@ -1,0 +1,16 @@
+<svg
+ xmlns="http://www.w3.org/2000/svg"
+ xmlns:xlink="http://www.w3.org/1999/xlink"
+ viewBox="0 0 24.5 17.5"
+ width="24.5px"
+ height="17.5px"
+ >
+<path fill-rule="evenodd"  stroke="currentColor" stroke-width="1.6px" stroke-linecap="butt" stroke-linejoin="miter" fill="none"
+ d="M1.416,14.066 C1.416,14.066 5.239,10.900 7.288,10.900 C9.338,10.900 15.272,14.891 16.954,14.891 C18.637,14.891 22.216,11.726 22.216,11.726 "/>
+<path fill-rule="evenodd"  stroke="currentColor" stroke-width="1.6px" stroke-linecap="butt" stroke-linejoin="miter" fill="none"
+ d="M5.216,1.300 C6.541,1.300 7.616,2.374 7.616,3.700 C7.616,5.025 6.541,6.100 5.216,6.100 C3.890,6.100 2.816,5.025 2.816,3.700 C2.816,2.374 3.890,1.300 5.216,1.300 Z"/>
+<path fill-rule="evenodd"  stroke="currentColor" stroke-width="1.6px" stroke-linecap="butt" stroke-linejoin="miter" fill="none"
+ d="M11.616,4.500 C12.941,4.500 14.016,5.574 14.016,6.900 C14.016,8.225 12.941,9.300 11.616,9.300 C10.290,9.300 9.216,8.225 9.216,6.900 C9.216,5.574 10.290,4.500 11.616,4.500 Z"/>
+<path fill-rule="evenodd"  stroke="currentColor" stroke-width="1.6px" stroke-linecap="butt" stroke-linejoin="miter" fill="none"
+ d="M18.416,1.300 C19.520,1.300 20.416,2.195 20.416,3.300 C20.416,4.405 19.520,5.300 18.416,5.300 C17.311,5.300 16.416,4.405 16.416,3.300 C16.416,2.195 17.311,1.300 18.416,1.300 Z"/>
+</svg>

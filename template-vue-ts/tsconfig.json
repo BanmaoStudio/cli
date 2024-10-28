@@ -1,0 +1,48 @@
+{
+  "compilerOptions": {
+    "baseUrl": ".",
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "jsx": "preserve",
+    // "jsxImportSource": "vue",
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "lib": ["ESNext", "DOM"],
+    "skipLibCheck": true,
+    "noEmit": true,
+    "forceConsistentCasingInFileNames": true,
+    "noImplicitAny": false, // 是否在表达式和声明上有隐含的any类型时报错
+    "paths": {
+      "@/*": ["./src/*"],
+      "#/*": ["./types/*"]
+    },
+    "types": [
+      "vite/client",
+      "node",
+      "unplugin-icons/types/vue",
+      "naive-ui/volar",
+    ]
+  },
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "types/**/*.d.ts",
+    "mock/**/*.ts",
+    "build/**/*.ts",
+    "build/*.ts",
+    "vite.config.ts",
+    "package.json",
+    ".env-config.ts"
+  ],
+  "exclude": ["dist", "node_modules"],
+  "vueCompilerOptions": {
+    "target": 3,
+  }
+}

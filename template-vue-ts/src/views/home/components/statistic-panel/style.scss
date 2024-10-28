@@ -1,0 +1,99 @@
+.statistic {
+  position: relative;
+  // width: 360px;
+  // height: 140px;
+  width: 100%;
+  height: 100%;
+
+  background: #ffffff;
+  backdrop-filter: blur(20px);
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 2px;
+
+  overflow: hidden;
+  // & + & {
+  //   margin-top: 20px;
+  // }
+}
+
+.statistic-content {
+  position: absolute;
+}
+
+.statistic-header {
+  position: absolute;
+  bottom: 20px;
+  left: 20px;
+  // width: 120px;
+  text-align: left;
+}
+
+.statistic-header__title {
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 19px;
+  letter-spacing: 0.3em;
+
+  color: #252525;
+
+  // text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.statistic-header__subtitle {
+  display: block;
+  margin-top: -2px;
+  margin-right: 4px;
+  text-transform: uppercase;
+  font-family: "Cormorant SC";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 10px;
+  /* or 83% */
+
+  text-align: right;
+
+  color: #8f8f8f;
+
+  // text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+}
+
+.statistic-content__value {
+  position: absolute;
+  top: 4px;
+  left: 20px;
+  z-index: 99;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 32px;
+  line-height: 48px;
+  white-space: nowrap;
+
+  color: #333333;
+
+  // text-shadow: 0px 3px 8px rgba(51, 62, 72, 0.6);
+  & .unit {
+    margin-left: 8px;
+  }
+  & .unit,
+  & .prefix {
+    // position: absolute;
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 20px;
+    line-height: 24px;
+
+    color: #252525;
+  }
+}
+
+.statistic-img {
+  position: absolute;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+}
