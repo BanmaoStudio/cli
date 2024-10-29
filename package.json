@@ -1,14 +1,11 @@
 {
-  "name": "@banmao/cli",
-  "version": "0.0.1",
+  "name": "create-bm",
+  "version": "0.0.0",
   "description": "",
   "type": "module",
   "bin": {
-    "init": "index.js"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "create-bm": "index.js",
+    "cva": "index.js"
   },
   "scripts": {
     "dev": "unbuild --stub",
