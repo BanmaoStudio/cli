@@ -1,8 +1,8 @@
 {
-  "name": "p101",
+  "name": "template-vue-ts",
   "private": true,
   "type": "module",
-  "version": "0.0.4",
+  "version": "0.0.1",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
