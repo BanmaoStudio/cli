@@ -20,7 +20,7 @@
     "node": "^18.0.0 || >= 20.0.0"
   },
   "keywords": [],
-  "author": "",
+  "author": "banmao <banmao2020@gmail.com>",
   "license": "ISC",
   "dependencies": {
     "minimist": "^1.2.8",
