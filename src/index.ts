@@ -33,9 +33,9 @@ const cwd = process.cwd()
 
 // prettier-ignore
 const helpMessage = `\
-Usage: create-vite [OPTION]... [DIRECTORY]
+Usage: create-banmao [OPTION]... [DIRECTORY]
 
-Create a new Vite project in JavaScript or TypeScript.
+Create a new Banmao project in JavaScript or TypeScript.
 With no arguments, start the CLI in interactive mode.
 
 Options:

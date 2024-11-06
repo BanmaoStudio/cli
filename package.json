@@ -4,11 +4,8 @@
   "description": "",
   "type": "module",
   "bin": {
-    "init": "index.js"
-  },
-  "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "create-bm": "index.js",
+    "cva": "index.js"
   },
   "scripts": {
     "dev": "unbuild --stub",

@@ -10,7 +10,7 @@ echo "build success!"
 # # 定义源目录，目标服务器和目标目录
 src_dir="dist/"
 dest_host="bw"
-dest_dir="/www/wwwroot/P101/"
+dest_dir="/www/wwwroot/[project-path]"
 
 
 echo "deploying to $dest_host:$dest_dir"
